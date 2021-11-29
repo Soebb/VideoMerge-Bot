@@ -1,4 +1,4 @@
-# (c) Shrimadhav U K & @AbirHasan2005
+# (c) Shrimadhav U K & @AbirHasan2005 & @samadii
 
 import asyncio
 import os
@@ -17,8 +17,6 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     :param format_: Pass File Extension.
     :return: This will return Merged Video File Path
     """
-    # os.system('ffmpeg -i "concat:temp/vid2.ts|temp/vid3.ts" -c copy -bsf:a  temp/out.mp4')
-    vid_list = vid_list.rsplit("|", 1)[0]
     output_vid = f"{Config.DOWN_PATH}/{str(user_id)}/[@AbirHasan2005]_Merged.mp4"
     file_generator_command = [
         "ffmpeg",
