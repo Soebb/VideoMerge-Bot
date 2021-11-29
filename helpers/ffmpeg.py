@@ -23,7 +23,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     file_generator_command = [
         "ffmpeg",
         "-i",
-        "'concat:" + vid_list + "'",
+        f"'concat:{vid_list}'",
         "-c:v",
         "copy",
         "-c:a",
