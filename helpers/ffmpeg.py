@@ -18,7 +18,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     :return: This will return Merged Video File Path
     """
     # os.system('ffmpeg -i "concat:temp/vid2.ts|temp/vid3.ts" -c copy -bsf:a  temp/out.mp4')
-
+    vid_list = vid_list.split(
     output_vid = f"{Config.DOWN_PATH}/{str(user_id)}/[@AbirHasan2005]_Merged.{format_.lower()}"
     file_generator_command = [
         "ffmpeg",
@@ -29,7 +29,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
         "-c:a",
         "aac",
         "-bsf:a",
-        "copy",
+        "aac_adtstoasc",
         output_vid
     ]
     process = None
