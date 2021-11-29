@@ -193,7 +193,7 @@ async def check_handler(bot: Client, m: Message):
 @NubBot.on_callback_query()
 async def callback_handlers(bot: Client, cb: CallbackQuery):
     if "mergeNow" in cb.data:
-        vid_list = ''
+        vid_list = list()
         await cb.message.edit(
             text="Please Wait ..."
         )
@@ -245,17 +245,17 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             try:
                 if metadata.has("duration"):
                     duration += metadata.get('duration').seconds
-                vid_list += file_dl_path + '|'
+                vid_lis.append file_dl_path
             except:
                 await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
                 QueueDB.update({cb.from_user.id: []})
                 FormtDB.update({cb.from_user.id: None})
                 await cb.message.edit("Video Corrupted!\nTry Again Later.")
                 return
-        __cache = ''
-        for i in range(vid_list.split('|')):
-            if vid_list.split('|')[0][i] not in __cache:
-                __cache += i + '
+        __cache = list()
+        for i in range(len(vid_list)):
+            if vid_list[i] not in __cache:
+                __cache.append
         vid_list = __cache
         if (len(vid_list) < 2) and (len(vid_list) > 0):
             await cb.message.edit("There only One Video in Queue!\nMaybe you sent same video multiple times.")
