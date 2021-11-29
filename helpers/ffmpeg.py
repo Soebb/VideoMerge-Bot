@@ -7,7 +7,7 @@ from configs import Config
 from pyrogram.types import Message
 
 
-async def MergeVideo(input_file: str, user_id: int, message: Message, format_: str):
+async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: str):
     """
     This is for Merging Videos Together!
 
@@ -17,17 +17,18 @@ async def MergeVideo(input_file: str, user_id: int, message: Message, format_: s
     :param format_: Pass File Extension.
     :return: This will return Merged Video File Path
     """
+    # os.system('ffmpeg -i "concat:temp/vid2.ts|temp/vid3.ts" -c copy -bsf:a  temp/out.mp4')
 
     output_vid = f"{Config.DOWN_PATH}/{str(user_id)}/[@AbirHasan2005]_Merged.{format_.lower()}"
     file_generator_command = [
         "ffmpeg",
-        "-f",
-        "concat",
-        "-safe",
-        "0",
         "-i",
-        input_file,
-        "-c",
+        "'" + vid_list + "'",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "aac",
+        "-bsf:a",
         "copy",
         output_vid
     ]
