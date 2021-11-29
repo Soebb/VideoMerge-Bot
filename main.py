@@ -193,7 +193,7 @@ async def check_handler(bot: Client, m: Message):
 @NubBot.on_callback_query()
 async def callback_handlers(bot: Client, cb: CallbackQuery):
     if "mergeNow" in cb.data:
-        vid_list = list()
+        vid_list = ''
         await cb.message.edit(
             text="Please Wait ..."
         )
@@ -245,7 +245,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             try:
                 if metadata.has("duration"):
                     duration += metadata.get('duration').seconds
-                vid_list.append(f"file '{file_dl_path}'")
+                vid_list =+ f"file '{file_dl_path}'")
             except:
                 await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
                 QueueDB.update({cb.from_user.id: []})
