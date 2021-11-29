@@ -200,7 +200,6 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         duration = 0
         list_message_ids = QueueDB.get(cb.from_user.id, None)
         list_message_ids.sort()
-        input_ = f"{Config.DOWN_PATH}/{cb.from_user.id}/input.txt"
         if list_message_ids is None:
             await cb.answer("Queue Empty!", show_alert=True)
             await cb.message.delete(True)
@@ -235,7 +234,11 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                         c_time
                     )
                 )
-                os.system(f"ffmpeg
+                if file_dl_path.rsplit('.', 1)[1].lower() != "mp4":
+                    os.system(f"ffmpeg -i {file_dl_path} -c copy {file_dl_path.rsplit('.', 1)[0]}.mp4")
+                    file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".mp4"
+                os.system(f"ffmpeg -i {file_dl_path} -c:v copy -bsf:v h264_mp4toannexb -c:a aac {file_dl_path.rsplit('.', 1)[0]}.ts")
+                file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".ts"
             except Exception as downloadErr:
                 print(f"Failed to Download File!\nError: {downloadErr}")
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
