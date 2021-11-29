@@ -51,6 +51,13 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     t_response = stdout.decode().strip()
     print(e_response)
     print(t_response)
+    if format_.lower() == "mp4":
+        try:
+            output_vid = output_vid.split( + format_.lower()
+            os.system(f"ffmpeg -i {output_vid} -c copy 
+        except Exception as e:
+            print(e)
+            pass
     if os.path.lexists(output_vid):
         return output_vid
     else:
