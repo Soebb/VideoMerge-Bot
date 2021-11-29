@@ -235,6 +235,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                         c_time
                     )
                 )
+                os.system(f"ffmpeg
             except Exception as downloadErr:
                 print(f"Failed to Download File!\nError: {downloadErr}")
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
@@ -256,13 +257,13 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         for i in range(len(vid_list)):
             if vid_list[i] not in __cache:
                 __cache.append(vid_list[i])
-        vid_list = __cache
-        if (len(vid_list) < 2) and (len(vid_list) > 0):
+        vid_list = "|".join(__cache)
+        if (len(__cache) < 2) and (len(__cache) > 0):
             await cb.message.edit("There only One Video in Queue!\nMaybe you sent same video multiple times.")
             return
         await cb.message.edit("Trying to Merge Videos ...")
         merged_vid_path = await MergeVideo(
-            input_file=input_,
+            vid_list=vid_list,
             user_id=cb.from_user.id,
             message=cb.message,
             format_=FormtDB.get(cb.from_user.id, "mkv")
