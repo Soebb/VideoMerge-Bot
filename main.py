@@ -245,7 +245,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             try:
                 if metadata.has("duration"):
                     duration += metadata.get('duration').seconds
-                vid_lis.append file_dl_path
+                vid_list.append(file_dl_path)
             except:
                 await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
                 QueueDB.update({cb.from_user.id: []})
@@ -255,7 +255,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         __cache = list()
         for i in range(len(vid_list)):
             if vid_list[i] not in __cache:
-                __cache.append
+                __cache.append(vid_list[i])
         vid_list = __cache
         if (len(vid_list) < 2) and (len(vid_list) > 0):
             await cb.message.edit("There only One Video in Queue!\nMaybe you sent same video multiple times.")
