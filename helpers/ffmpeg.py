@@ -18,7 +18,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     :return: This will return Merged Video File Path
     """
     # os.system('ffmpeg -i "concat:temp/vid2.ts|temp/vid3.ts" -c copy -bsf:a  temp/out.mp4')
-    vid_list = vid_list.rsplit("|", 1)
+    vid_list = vid_list.rsplit("|", 1)[0]
     output_vid = f"{Config.DOWN_PATH}/{str(user_id)}/[@AbirHasan2005]_Merged.{format_.lower()}"
     file_generator_command = [
         "ffmpeg",
@@ -51,10 +51,10 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     t_response = stdout.decode().strip()
     print(e_response)
     print(t_response)
-    if format_.lower() == "mp4":
+    if format_.lower() != "mp4":
         try:
-            output_vid = output_vid.split + format_.lower()
-            os.system(f"ffmpeg -i {output_vid} -c copy 
+            os.system(f"ffmpeg -i {output_vid} -c copy {output_vid.rsplit('ts', 1)[0]}{format_.lower()}")
+            output_vid = output_vid.rsplit('ts', 1)[0] + format_.lower()
         except Exception as e:
             print(e)
             pass
