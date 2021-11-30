@@ -11,7 +11,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     """
     This is for Merging Videos Together!
 
-    :param input_file: input.txt file's location.
+    :param vid_list: Pass Videos List.
     :param user_id: Pass user_id as integer.
     :param message: Pass Editable Message for Showing FFmpeg Progress.
     :param format_: Pass File Extension.
@@ -48,7 +48,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     t_response = stdout.decode().strip()
     print(e_response)
     print(t_response)
-    await asyncio.sleep(10)
+    await asyncio.sleep(2)
     if format_.lower() != "mp4":
         try:
             os.system(f"ffmpeg -i {output_vid} -c copy {output_vid.rsplit('ts', 1)[0]}{format_.lower()}")
