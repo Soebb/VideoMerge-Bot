@@ -84,8 +84,8 @@ async def videos_handler(bot: Client, m: Message):
     if (FormtDB.get(m.from_user.id, None) is not None) and (media.file_name.rsplit(".", 1)[-1].lower() != FormtDB.get(m.from_user.id)):
         await m.reply_text(f"First you sent a {FormtDB.get(m.from_user.id).upper()} video so now send only that type of video.", quote=True)
         return
-    input_ = f"{Config.DOWN_PATH}/{m.from_user.id}/input.txt"
-    if os.path.exists(input_):
+    dir = f"{Config.DOWN_PATH}/{m.from_user.id}"
+    if os.path.isdir(dir):
         await m.reply_text("Sorry Unkil,\nAlready One in Progress!\nDon't Spam Plox.")
         return
     isInGap, sleepTime = await CheckTimeGap(m.from_user.id)
