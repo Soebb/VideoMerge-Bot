@@ -1,4 +1,4 @@
-# (c) Shrimadhav U K & @AbirHasan2005 & @samadii
+# (c) Shrimadhav U K & @AbirHasan2005
 
 import asyncio
 import os
@@ -17,15 +17,14 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     :param format_: Pass File Extension.
     :return: This will return Merged Video File Path
     """
+
     output_vid = f"{Config.DOWN_PATH}/{str(user_id)}/[@AbirHasan2005]_Merged.mp4"
     file_generator_command = [
         "ffmpeg",
         "-i",
-        f"'concat:{vid_list}'",
-        "-c:v",
+        "concat:" + vid_list,
+        "-c",
         "copy",
-        "-c:a",
-        "aac",
         "-bsf:a",
         "aac_adtstoasc",
         output_vid
@@ -49,6 +48,7 @@ async def MergeVideo(input_file: str, vid_list: str, message: Message, format_: 
     t_response = stdout.decode().strip()
     print(e_response)
     print(t_response)
+    await asyncio.sleep(10)
     if format_.lower() != "mp4":
         try:
             os.system(f"ffmpeg -i {output_vid} -c copy {output_vid.rsplit('ts', 1)[0]}{format_.lower()}")
