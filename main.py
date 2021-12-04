@@ -237,8 +237,11 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     os.system(f"ffmpeg -i {file_dl_path} -c copy {file_dl_path.rsplit('.', 1)[0]}.mp4")
                     file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".mp4"
                 audio_codec = get_audio_codec(file_dl_path)
-                
-                os.system(f"ffmpeg -i {file_dl_path} -c:v copy -bsf:v h264_mp4toannexb -c:a aac {file_dl_path.rsplit('.', 1)[0]}.ts")
+                if audio_codec[0] == "aac":
+                    audio_opts = "-c:a copy"
+                else:
+                    audio_opts = "-c:a aac"
+                os.system(f"ffmpeg -i {file_dl_path} -c:v copy -bsf:v h264_mp4toannexb {audio_opts} {file_dl_path.rsplit('.', 1)[0]}.ts")
                 file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".ts"
             except Exception as downloadErr:
                 print(f"Failed to Download File!\nError: {downloadErr}")
