@@ -18,6 +18,7 @@ from pyrogram import Client, filters
 from helpers.markup_maker import MakeButtons
 from helpers.streamtape import UploadToStreamtape
 from helpers.clean import delete_all
+from subprocess import check_output
 from hachoir.parser import createParser
 from helpers.check_gap import CheckTimeGap
 from helpers.database.access_db import db
@@ -28,7 +29,7 @@ from helpers.forcesub import ForceSub
 from hachoir.metadata import extractMetadata
 from helpers.display_progress import progress_for_pyrogram, humanbytes
 from helpers.broadcast import broadcast_handler
-from helpers.ffmpeg import MergeVideo, generate_screen_shots, cult_small_video
+from helpers.ffmpeg import MergeVideo, generate_screen_shots, cult_small_video, get_audio_codec
 from asyncio.exceptions import TimeoutError
 from pyrogram.errors import FloodWait, UserNotParticipant, MessageNotModified
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery, InputMediaPhoto
@@ -42,7 +43,6 @@ NubBot = Client(
     api_hash=Config.API_HASH,
     bot_token=Config.BOT_TOKEN
 )
-
 
 @NubBot.on_message(filters.private & filters.command("start"))
 async def start_handler(bot: Client, m: Message):
