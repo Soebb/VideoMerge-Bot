@@ -18,7 +18,6 @@ from pyrogram import Client, filters
 from helpers.markup_maker import MakeButtons
 from helpers.streamtape import UploadToStreamtape
 from helpers.clean import delete_all
-from subprocess import check_output
 from hachoir.parser import createParser
 from helpers.check_gap import CheckTimeGap
 from helpers.database.access_db import db
@@ -237,6 +236,8 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 if file_dl_path.rsplit('.', 1)[1].lower() != "mp4":
                     os.system(f"ffmpeg -i {file_dl_path} -c copy {file_dl_path.rsplit('.', 1)[0]}.mp4")
                     file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".mp4"
+                audio_codec = get_audio_codec(file_dl_path)
+                
                 os.system(f"ffmpeg -i {file_dl_path} -c:v copy -bsf:v h264_mp4toannexb -c:a aac {file_dl_path.rsplit('.', 1)[0]}.ts")
                 file_dl_path = file_dl_path.rsplit('.', 1)[0] + ".ts"
             except Exception as downloadErr:
